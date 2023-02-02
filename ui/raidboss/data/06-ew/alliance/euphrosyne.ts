@@ -811,7 +811,7 @@ const triggerSet: TriggerSet<Data> = {
       netRegex: { id: ['7BE[4567]', '7F0[ABCD]'], source: 'Menphina' },
       // These two abilities come out at the same time.  It seems that Waxing Claw always comes
       // after, but trying not to make assumptions here.
-      delaySeconds: 0.3,
+      delaySeconds: 0.5,
       promise: async (data, matches) => {
         data.combatantData = [];
         if (data.menphinaDogId === undefined)
@@ -835,6 +835,11 @@ const triggerSet: TriggerSet<Data> = {
         // These two variables are N=0, NE=1, etc
         const menphinaHeading = headingTo4Dir(menphina.Heading) * 2;
         const absoluteDogPos = positionTo8Dir(dog.PosX, dog.PosY, menphinaCenterX, menphinaCenterY);
+
+        // TEMP DEBUGGING
+        console.log(`Menphina heading: ${menphina.Heading} => ${menphinaHeading}`);
+        console.log(`Dog: ${dog.PosX}, ${dog.PosY} => ${absoluteDogPos}`);
+
         // Dog should be on an intercard.
         if (absoluteDogPos % 2 === 0)
           return;
@@ -896,6 +901,10 @@ const triggerSet: TriggerSet<Data> = {
           markSmallUnsafe([3, 4, 5, 6]);
         else if (dogUnsafeQuadrant === 7)
           markSmallUnsafe([5, 6, 7, 0]);
+
+        // TEMP DEBUGGING
+        console.log(`Big Safe: ${JSON.stringify(bigSafeSpots)}`);
+        console.log(`Small Safe: ${JSON.stringify(smallSafeSpots)}`);
 
         // At this point there should be either:
         // (a) 1 big entry and 3 small entries [prefer the big entry]
